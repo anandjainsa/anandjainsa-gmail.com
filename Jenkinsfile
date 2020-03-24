@@ -15,12 +15,13 @@ pipeline {
     environment {
         //  Define all variables
 
-        SERVICEPORT = "8081"
+/*        SERVICEPORT = "8081"
         APPNAME = "memberproxyapi"
         NAMESPACE = "ns-middleware-dv1"
         ENVIRONMENT = "dv1"
         ING_SECRET = "w-ttgtpmg-net-secret"
         ING_HOST = "npworker.ttgtpmg.net"
+  */      
         RELVER = "2.2.2"
     }
 
@@ -29,7 +30,7 @@ pipeline {
             steps {
                 mavenRelease("${RELVER}")
             }
-        }
+        } /*
         stage('Building and Pushing Container Image') {
             steps {
                 dockerBuild()
@@ -47,6 +48,6 @@ pipeline {
                 envCreate("${ENVIRONMENT}")
                 kubeDeployment("${NAMESPACE}", "${APPNAME}", "${SERVICEPORT}", "${ENVIRONMENT}", "${SECRET}", "${HOST}")
             }
-        }
+        }*/
     }
 }
