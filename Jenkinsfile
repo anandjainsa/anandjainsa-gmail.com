@@ -30,12 +30,11 @@ pipeline {
 
 def getReleaseVersion() {
             def pom = readMavenPom file: 'pom.xml'
-            def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
             def versionNumber;
             if (gitCommit == null) {
-                versionNumber = env.BUILD_NUMBER;
+                versionNumber = 1.0.1;
             } else {
-                versionNumber = gitCommit.take(8);
+                versionNumber = 1.0.0;
             }
             echo  pom.version.replace("-SNAPSHOT", ".${versionNumber}")
             return pom.version.replace("-SNAPSHOT", ".${versionNumber}")
