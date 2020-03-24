@@ -3,7 +3,7 @@ pipeline {
     agent any
     // global env variables
     environment {
-        EMAIL_RECIPIENTS = 'mahmoud.romeh@test.com'
+        RELVER = "0.0.2"
     }
     stages {
         stage('Release and publish artifact') {
@@ -16,8 +16,8 @@ pipeline {
                         if (v) {
                             echo "Building version ${v} - so released version is ${releasedVersion}"
                         }
-                        sh "'${mvnHome}/bin/mvn' -Dmaven.test.skip=true  versions:set  -DgenerateBackupPoms=false -DnewVersion=${v}"
-                        sh "'${mvnHome}/bin/mvn' -Dmaven.test.skip=true clean deploy"
+                        sh "'${mvnHome}/bin/mvn' -B release:prepare"
+                        sh "'${mvnHome}/bin/mvn' -B release:perform"
 
                     } else {
                         error "Release is not possible. as build is not successful"
@@ -28,9 +28,9 @@ pipeline {
     }
 }
 
-def getReleaseVersion() {
+def getReleaseVersion(RELVER) {
             def pom = readMavenPom file: 'pom.xml'
-            def versionNumber  = "1.0.1";
+    def versionNumber  = "${RELVER}";
             
             echo  pom.version.replace("-SNAPSHOT", ".${versionNumber}")
             return pom.version.replace("-SNAPSHOT", ".${versionNumber}")
