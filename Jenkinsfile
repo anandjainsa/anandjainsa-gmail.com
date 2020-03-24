@@ -25,16 +25,17 @@ pipeline {
                 }
             }
         }
-
-
-def getReleaseVersion() {
-    def pom = readMavenPom file: 'pom.xml'
-    def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-    def versionNumber;
-    if (gitCommit == null) {
-        versionNumber = env.BUILD_NUMBER;
-    } else {
-        versionNumber = gitCommit.take(8);
     }
-    return pom.version.replace("-SNAPSHOT", ".${versionNumber}")
+
+        def getReleaseVersion() {
+            def pom = readMavenPom file: 'pom.xml'
+            def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+            def versionNumber;
+            if (gitCommit == null) {
+                versionNumber = env.BUILD_NUMBER;
+            } else {
+                versionNumber = gitCommit.take(8);
+            }
+            return pom.version.replace("-SNAPSHOT", ".${versionNumber}")
+        }
 }
