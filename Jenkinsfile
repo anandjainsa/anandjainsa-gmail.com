@@ -3,7 +3,7 @@ pipeline {
     agent any
     // global env variables
     environment {
-        RELVER = "0.0.2"
+        RELVER = "2.2.2"
     }
     stages {
         stage('Release and publish artifact') {
@@ -20,10 +20,9 @@ pipeline {
 }
 
 def getReleaseVersion(RELVER) {
-            def pom = readMavenPom file: 'pom.xml'
-    def versionNumber  = "${RELVER}";
-         pom.version.replace("-SNAPSHOT", ".${versionNumber}")
-         sh "/var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven_3.3.9/bin/mvn -B release:prepare"
-         sh "/var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven_3.3.9/bin/mvn -B release:perform"
-        }
-
+     
+     def pom = readMavenPom file: 'pom.xml'
+     def version = pom.version.replace("-SNAPSHOT", ".${RELVER}")
+     stage 'Build'
+     sh "/var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven_3.3.9/bin/mvn -DreleaseVersion=${version} -DdevelopmentVersion=${pom.version} -DpushChanges=false -DlocalCheckout=true -DpreparationGoals=initialize release:prepare release:perform -B"
+}
