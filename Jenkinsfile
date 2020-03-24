@@ -11,7 +11,8 @@ pipeline {
 
         // Note: this should match with the tool name configured in your jenkins instance (JENKINS_URL/configureTools/)
 
-        maven "maven"
+        //maven "maven"
+        maven "Maven 3.3.9"
         jdk "jdk1.8.0_131"
     }
 
