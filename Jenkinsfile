@@ -15,7 +15,7 @@ pipeline {
         jdk "jdk1.8.0_131"
     }
 
-environment {
+    environment {
         //  Define all variables
 
         SERVICEPORT = "8081"
@@ -25,35 +25,34 @@ environment {
         DEV_ING_SECRET = "w-ttgtpmg-net-secret"
         DEV_ING_HOST = "npworker.ttgtpmg.net"
         REL_VER = "2.2.2"
-}
+    }
 
     stages {
         stage('Release and publish artifact') {
-          environment {
-            RELVER = "${REL_VER}"
-             }
+            environment {
+                RELVER = "${REL_VER}"
+            }
             steps {
-              mavenRelease("${RELVER}")
-                } 
+                mavenRelease("${RELVER}")
             }
         }
     }
-        stage('Building and Pushing Container Image') {
-            steps {
-                dockerBuild()
-            }
+    stage('Building and Pushing Container Image') {
+        steps {
+            dockerBuild()
         }
+    }
 
-        stage("Deploying Application to Prod") {
-          environment {
-                 NAMESPACE = "${DEV_NAMESPACE}"
-                 ENVIRONMENT = "${DEV_ENVIRONMENT}"
-                 SECRET = "${DEV_ING_SECRET}"
-                 HOST = "${DEV_ING_HOST}"
-                }
-            steps {
-                 envCreate("${ENVIRONMENT}")
-                 kubeDeployment("${NAMESPACE}", "${APPNAME}", "${SERVICEPORT}", "${ENVIRONMENT}", "${SECRET}", "${HOST}")
-                }
+    stage("Deploying Application to Prod") {
+        environment {
+            NAMESPACE = "${DEV_NAMESPACE}"
+            ENVIRONMENT = "${DEV_ENVIRONMENT}"
+            SECRET = "${DEV_ING_SECRET}"
+            HOST = "${DEV_ING_HOST}"
         }
+        steps {
+            envCreate("${ENVIRONMENT}")
+            kubeDeployment("${NAMESPACE}", "${APPNAME}", "${SERVICEPORT}", "${ENVIRONMENT}", "${SECRET}", "${HOST}")
+        }
+    }
 }
