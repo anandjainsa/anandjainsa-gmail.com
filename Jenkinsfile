@@ -38,13 +38,13 @@ pipeline {
             }
         }
     }
-    stage('Building and Pushing Container Image') {
+       stage('Building and Pushing Container Image') {
         steps {
             dockerBuild()
         }
     }
 
-    stage("Deploying Application to Prod") {
+       stage("Deploying Application to Prod") {
         environment {
             NAMESPACE = "${DEV_NAMESPACE}"
             ENVIRONMENT = "${DEV_ENVIRONMENT}"
