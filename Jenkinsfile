@@ -34,23 +34,23 @@ pipeline {
                 mavenRelease("${RELVER}")
             }
         }
-    }
-       stage('Building and Pushing Container Image') {
-        steps {
-            dockerBuild()
+        stage('Building and Pushing Container Image') {
+            steps {
+                dockerBuild()
+            }
         }
-    }
 
-       stage("Deploying Application to Prod") {
-        environment {
-            NAMESPACE = "${DEV_NAMESPACE}"
-            ENVIRONMENT = "${DEV_ENVIRONMENT}"
-            SECRET = "${DEV_ING_SECRET}"
-            HOST = "${DEV_ING_HOST}"
-        }
-        steps {
-            envCreate("${ENVIRONMENT}")
-            kubeDeployment("${NAMESPACE}", "${APPNAME}", "${SERVICEPORT}", "${ENVIRONMENT}", "${SECRET}", "${HOST}")
+        stage("Deploying Application to Prod") {
+            environment {
+                NAMESPACE = "${DEV_NAMESPACE}"
+                ENVIRONMENT = "${DEV_ENVIRONMENT}"
+                SECRET = "${DEV_ING_SECRET}"
+                HOST = "${DEV_ING_HOST}"
+            }
+            steps {
+                envCreate("${ENVIRONMENT}")
+                kubeDeployment("${NAMESPACE}", "${APPNAME}", "${SERVICEPORT}", "${ENVIRONMENT}", "${SECRET}", "${HOST}")
+            }
         }
     }
 }
