@@ -25,14 +25,11 @@ pipeline {
         DEV_ENVIRONMENT = "dv1"
         DEV_ING_SECRET = "w-ttgtpmg-net-secret"
         DEV_ING_HOST = "npworker.ttgtpmg.net"
-        REL_VER = "2.2.2"
+        RELVER = "2.2.2"
     }
 
     stages {
         stage('Release and publish artifact') {
-            environment {
-                RELVER = "${REL_VER}"
-            }
             steps {
                 mavenRelease("${RELVER}")
             }
