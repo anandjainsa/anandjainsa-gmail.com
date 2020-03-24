@@ -7,11 +7,14 @@ pipeline {
     }
     stages {
         stage('Release and publish artifact') {
+          environment {
+                 RELVER = "${RELVER}"
+          }
             steps {
                 script {
                     def mvnHome = tool 'Maven 3.3.9' //
                     if (currentBuild.result == null || currentBuild.result == 'SUCCESS') {
-                        def v = getReleaseVersion()
+                        def v = getReleaseVersion("${RELVER}")
                         releasedVersion = v;
                         if (v) {
                             echo "Building version ${v} - so released version is ${releasedVersion}"
