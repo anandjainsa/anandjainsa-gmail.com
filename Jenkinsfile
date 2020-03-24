@@ -37,6 +37,7 @@ def getReleaseVersion() {
             } else {
                 versionNumber = gitCommit.take(8);
             }
-            return pom.version.replace("-SNAPSHOT", ".${versionNumber}"
+            echo  pom.version.replace("-SNAPSHOT", ".${versionNumber}")
+            return pom.version.replace("-SNAPSHOT", ".${versionNumber}")
         }
 
