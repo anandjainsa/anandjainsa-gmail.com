@@ -23,7 +23,7 @@ def getReleaseVersion(RELVER) {
             def pom = readMavenPom file: 'pom.xml'
     def versionNumber  = "${RELVER}";
          pom.version.replace("-SNAPSHOT", ".${versionNumber}")
-         sh "mvn' -B release:prepare"
-         sh "mvn' -B release:perform"
+         sh "mvn -B release:prepare"
+         sh "mvn -B release:perform"
         }
 
