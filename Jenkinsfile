@@ -1,11 +1,7 @@
 @Library('mylibrary')_
 pipeline {
 
-    agent {
-
-        label "DockerSlaveAP52"
-
-    }
+    agent any
 
     tools {
 
